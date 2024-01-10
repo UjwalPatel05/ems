@@ -34,7 +34,6 @@ export async function createEvent({ userId, event, path }: CreateEventParams) {
 
     const organizer = await User.findById(userId)
     if (!organizer) throw new Error('Organizer not found')
-
     const newEvent = await Event.create({ ...event, category: event.categoryId, organizer: userId })
     revalidatePath(path)
 
@@ -114,7 +113,7 @@ export async function getAllEvents({ query, limit = 6, page, category }: GetAllE
 
     const events = await populateEvent(eventsQuery)
     const eventsCount = await Event.countDocuments(conditions)
-
+    console.log(events)
     return {
       data: JSON.parse(JSON.stringify(events)),
       totalPages: Math.ceil(eventsCount / limit),
